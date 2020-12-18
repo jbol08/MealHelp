@@ -17,3 +17,4 @@ Autocompletes while typing, loading information based on search terms, taking in
 Home page where they can search but dietary restrictions, search by ingredients page, search by time page, search by nutrition page
 ###f. What features make your site more than CRUD? Do you have any stretch goals?
 I’m not sure anything would make it more than crud. Stretch goal = Extending search bar capabilities 
+.
