@@ -2,12 +2,12 @@ from flask import Flask, render_template, redirect,flash,session
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.exceptions import Unauthorized
 from models import db, connect_db, User, Favorite, Recipe
-from forms import RegisterForm, LoginForm, MealForm, 
+from forms import RegisterForm, LoginForm, MealForm
 
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///feedback'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///mealhelp'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'asfdsfds'
 
@@ -92,17 +92,28 @@ def user_details(username):
 @app.route('/meal-search', methods=['GET','POST'])
 def select_page():
     '''be shown a list of checkboxes and click boxes to create parameters for the meals that will be returned'''
-    if "username" not in session or username != session['username']:
-        raise Unauthorized('must be logged in to view this page')
         
-        return render_template('meal-search.html')
-    else:
-        return redirect('/meal-results')
+    return render_template('meal-search.html')
+    # else:
+    #     return redirect('/meal-results')
 
 @app.route('/meal-results')
 def show_results():
     '''show the results from their search'''
-    if "username" not in session or username != session['username']:
-        raise Unauthorized('must be logged in to view this page')
+    
 
     return render_template('meal-results.html')
+
+@app.route('/users/<username>/delete',methods=['POST'])
+def delete_user(username):
+    '''delete a user'''
+    if 'username' not in session or username != ['username']:
+        flash('must be logged in to view')
+        
+
+    user = User.query.get(username)
+    db.session.delete(user)
+    db.session.commit()
+    session.pop('username')
+
+    return redirect('/')

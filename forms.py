@@ -1,4 +1,4 @@
-from wtforms import StringField,PasswordField, TextAreaField
+from wtforms import StringField,PasswordField, TextAreaField, SelectField
 from wtforms.validators import InputRequired, Email, Length
 from flask_wtf import FlaskForm
 
@@ -24,5 +24,6 @@ class LoginForm(FlaskForm):
 
 class MealForm(FlaskForm):
     '''select checkboxes for meal parameters'''
+    
 
     
