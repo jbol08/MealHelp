@@ -46,14 +46,14 @@ class User(db.Model):
             return user
         else:
             return False
-class Favorite(db.model):
+class Favorite(db.Model):
     '''table with recipes that have been favorited and which users have favorited it'''
 
     __tablename__ = "favorites"
 
     id = db.Column(db.Integer, autoincrement=True,primary_key=True)
     username = db.Column(db.String,db.ForeignKey('users.username'),nullable =False)
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'),nullable=False)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id'),nullable=False)
 
 
 

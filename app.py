@@ -41,7 +41,7 @@ def new_user():
         db.session.add(user)
         db.session.commit()
         session['username'] = user.username
-        return redirect(f'/users/{user.username}')
+        return redirect(f'/meal-search')
     else:
         return render_template('register.html', form=form)
 
@@ -60,6 +60,7 @@ def login_user():
         user = User.authenticate(username, password)  
         if user:
             session['username'] = user.username
+            flash(f'Welcome Back {user.username}')
             return redirect(f'/users/{user.username}')
         else:
             form.username.errors = ["Invalid username/password."]
@@ -78,16 +79,15 @@ def logout():
 def user_details(username):
     '''show information about a user'''
     if "username" not in session or username != session['username']:
-        raise Unauthorized('must be logged in to view this page')
+        raise Unauthorized('must be logged in to view this page!')
 
-    if 'username' not in session or username != ['username']:
-        flash('must be logged in to view')
-        
+    else:
+        favorites = Favorite.query.filter(Favorite.user.username == users.id)        
 
-    user = User.query.get(username)
+        user = User.query.get(username)
     
 
-    return render_template('users.html',user=user,form=form)
+    return render_template('users.html',user=user, favorites=favorites)
 
 @app.route('/meal-search', methods=['GET','POST'])
 def select_page():
