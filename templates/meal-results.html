@@ -5,6 +5,53 @@
 
 {% block content %}
 
+<div id="search-results">
+    <div id="noresults">
+        <p>{{no_results}}</p>
+    </div>
+    <br>
+    {% for result in results %}
+    <div class="col d-flex justify-content-center container-fluid result">
+        <div class="card card-width" id={{result.id}}>
+            <a href="/dish/{{result.id}}"><img class="card-img-top img-rounded" alt={{result.title}}
+                    src="{{result.image}}"></a>
+            <br>
+            <h2 class="text-center"><a class="card-title text-center dish-title"
+                    href="/dish/{{result.id}}">{{result.title}}</a>
+            </h2>
+
+            {% if g.user %}
+            <div class="favorite">
+                {% if favorited_recipes and result.id in favorited_recipes %}
+                <button data-id="{{result.id}}" class="btn m-2 favorited-btn"><i class="fas fa-star"></i> Remove
+                    Dish from
+                    Favorites</button>
+                {% else %}
+                <button data-id="{{result.id}}" class="btn m-2 not-favorited-btn"><i class="fas fa-star"></i>
+                    Add Dish to
+                    Favorites</button>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <div class="card-body">
+            <br>
+     
+                <a href="/dish/{{result.id}}">
+                    <p class="card-text">Get this recipe!</p>
+                </a>
+              
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <br>
+    {% if not g.user %}
+    <p><a class="dish-title" href="/login"> Sign in if you want to save your favorite dishes!</a></p>
+    <a href="/register" class="btn btns signup-btn">Create Account</a>
+    {% endif %}
+</div>
+
 
 
 

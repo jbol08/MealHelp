@@ -1,17 +1,21 @@
-from flask import Flask, render_template, redirect,flash,session
+import os
+import request,json
+from apiKey import API_SECRET_KEY
+from flask import Flask, render_template, redirect, flash,session,g
 from flask_debugtoolbar import DebugToolbarExtension
-from werkzeug.exceptions import Unauthorized
+from sqlalchemy.exc import IntegrityError
 from models import db, connect_db, User, Favorite, Recipe
 from forms import RegisterForm, LoginForm
 
-API_BASE_URL = https://api.spoonacular.com/recipes/findByIngredients
 
 
+CURR_USER_KEY = "curr_user"
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///mealhelp'
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    os.environ.get('DATABASE_URL','postgresql:///mealhelp'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'asfdsfds'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 
 connect_db(app)
 db.create_all()
