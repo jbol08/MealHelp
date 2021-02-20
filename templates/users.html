@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 {% block content%}
-{{user.username}}'s Profile 
+{{g.user.username}}'s Profile 
 {% block title %}
 
-<h1>Welcome {{user.username}}</h1>
+<h1>Welcome {{g.user.username}}</h1>
 
 <h2> Favorites</h2>
 
-{% if user.recipes %}
+{% if g.user.recipes %}
 <div class="favorites">
     <ul>
-        {% for favorite in user.favorites %}
+        {% for favorite in g.user.favorites %}
         <li>
            <strong>{{recipe.title}}</strong>
            <br>

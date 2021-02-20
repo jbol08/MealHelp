@@ -22,8 +22,7 @@ class LoginForm(FlaskForm):
 
     password = PasswordField('Password',validators=[InputRequired()],)
 
-class MealForm(FlaskForm):
-    '''select checkboxes for meal parameters'''
+
     
 
     
