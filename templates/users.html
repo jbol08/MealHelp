@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
-{% block content%}
+{% block title%}
 {{g.user.username}}'s Profile 
-{% block title %}
+{% endblock %}
+
+{% block content %}
 
 <h1>Welcome {{g.user.username}}</h1>
 
@@ -23,7 +25,7 @@
 <h3> No Favorites Added Yet!</h3>
 {% endif %}
         <form>
-            <button class="btn btn-danger" formmethod="POST" formaction="/users/{{user.username}}/delete">
+            <button class="btn btn-danger" formmethod="POST" formaction="/users/{{g.user.username}}/delete">
             Delete User
             </button>
         </form>

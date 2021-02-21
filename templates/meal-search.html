@@ -3,15 +3,35 @@
 
 <h1> Search by Ingredients or Dietary Restrictions </h1>
 
-
+<form method="POST">
 <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Ingredients and/or Dietary Restrictions" aria-label="Ingredients and/or Dietary Restrictions" aria-describedby="button-addon2">
+    <input type="text" class="form-control" name="Ingredients" id="meal" placeholder="Ingredients and/or Dietary Restrictions" aria-label="Ingredients and/or Dietary Restrictions" aria-describedby="button-addon2">
   <div class="input-group-append">
     <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
   </div>  
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Diet</button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="#">Gluten Free</a>
+      <a class="dropdown-item" href="#">Ketogenic</a>
+      <a class="dropdown-item" href="#">Vegetarian</a>
+      <a class="dropdown-item" href="#">Lacto-Vegetarian</a>
+      <a class="dropdown-item" href="#">Ovo-Vegetarian</a>
+      <a class="dropdown-item" href="#">Vegan</a>
+      <a class="dropdown-item" href="#">Pescetarian</a>
+      <a class="dropdown-item" href="#">Paleo</a>
+      <a class="dropdown-item" href="#">Primal</a>
+      <a class="dropdown-item" href="#">Whole30</a>
+      
+    </div>
+  </div>
 </div>
-<label>Please separate multiple Ingredients or Restrictions with a comma.</label>
+<label>Please Separate multiple Ingredients with a comma.</label>
+</form>
 
-
+{% if not g.user %}
+    <p><a class="badge badge-info" href="/login"> Sign in if you want to save your favorite dishes!</a></p>
+    <a href="/register" class="btn btns signup-btn">Create Account</a>
+{% endif %}
 
 {% endblock %}

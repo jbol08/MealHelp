@@ -17,14 +17,14 @@ class User(db.Model):
 
     __tablename__ = "users"
     
-    id = db.Column(db.Integer,primary_key=True,autoincrement=True)
+    id = db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String(20),unique=True,nullable=False)
     password = db.Column(db.Text, nullable=False)
     email = db.Column(db.String(50), nullable=False)
     first_name = db.Column(db.String(30), nullable=False)
     last_name = db.Column(db.String(30), nullable=False)
 
-    recipes = db.relationship('Recipe',secondary="favorites",backref='user', cascade='all, delete')
+    recipes = db.relationship('Recipe',secondary="favorites")
 
     @classmethod
     def register(cls,username,password,email,first_name,last_name):
@@ -51,21 +51,21 @@ class Favorite(db.Model):
 
     __tablename__ = "favorites"
 
-    id = db.Column(db.Integer, autoincrement=True,primary_key=True)
-    username = db.Column(db.String,db.ForeignKey('users.username'),nullable =False)
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id'),nullable=False)
+    id = db.Column(db.Integer,primary_key=True)
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'))
 
 
 
 class Recipe(db.Model):
-    '''feedback table'''
+    '''recipe that was favorited table'''
 
     __tablename__ = "recipes"
 
-    id = db.Column(db.Integer,primary_key=True,autoincrement=True,unique=True)
-    title = db.Column(db.String,nullable=False)
+    recipe_id = db.Column(db.Integer,primary_key=True)
+    title = db.Column(db.Text,nullable=False)
     image = db.Column(db.Text,nullable=False)
-    details = db.Column(db.Text,nullable=False)
-    total_time = db.Column(db.Integer, nullable=False)
+    # details = db.Column(db.Text,nullable=False)
+    # total_time = db.Column(db.Integer, nullable=False)
    
-    favorites = db.relationship('Favorite',backref='recipe', cascade='all,delete')
+    # favorites = db.relationship('Favorite',backref='recipe', cascade='all,delete')

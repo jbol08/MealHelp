@@ -1,7 +1,7 @@
 import os
-import request,json
-from apiKey import API_SECRET_KEY
-from flask import Flask, render_template, redirect, flash,session,g
+import requests,json
+# from apiKey import API_SECRET_KEY
+from flask import Flask, render_template, request, jsonify, redirect, flash,session,g
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 from models import db, connect_db, User, Favorite, Recipe
@@ -63,7 +63,7 @@ def new_user():
 
     if form.validate_on_submit():
         try:
-            user = User.signup(
+            user = User.register(
                 username=form.username.data,
                 password=form.password.data,
                 email=form.email.data,
@@ -78,7 +78,8 @@ def new_user():
 
         do_login(user)
 
-        return redirect(f'/meal-search')
+        return redirect('/')
+        flash('Thank you for signing up', 'success')
     else:
         return render_template('register.html', form=form)
 
@@ -90,12 +91,14 @@ def login_user():
     form = LoginForm()
 
     if form.validate_on_submit():
-        user = User.authenticate(username, password)  
+        user = User.authenticate(
+            form.username.data,
+            form.password.data)  
         
         if user:
             do_login(user)
             flash(f"Hello, {user.username}!", "success")
-            return redirect(f'/users/{user.username}')
+            return redirect('/')
 
         flash('Invalid credentials.', 'danger')
     
@@ -109,22 +112,46 @@ def logout():
     flash('you have been logged out.', 'success')
     return redirect('/login')
 
-@app.route('/users/<username>')
-def user_details(username):
+@app.route('/user')
+def user_details():
     '''show information about a user'''
     if not g.user:
         flash('You must be logged in to see this page.', 'danger')
         return redirect("/login")
 
     else:
-        favorites = Favorite.query.filter(Favorite.user.username == users.id)        
+        favorites = Favorite.query.filter(Favorite.user_id == g.user.id)  
+        favorites_list = [ favorites.recipe_id for favorite in favorites]
+        # ordered_favorites = [Recipe.query.get(id) for id in ordered_recipe_ids]
 
-        user = User.query.get_or_404(username)
     
 
-    return render_template('users.html',user=user, favorites=favorites)
+    return render_template('users.html',favorites=favorites_list)
 
-@app.route('/meal-search', methods=['GET','POST'])
+@app.route('/favorites/<int:meal_id>', methods=['POST'])
+def add_favorites(meal_id):
+    '''allow users to add a favorite recipe'''
+    if not g.user:
+        flash('You must be logged to see your favorites.', 'danger')
+        return redirect("/login")
+
+    if not Recipe.query.get(meal_id):
+        response = requests.get(f"https://api.spoonacular.com/recipes/{meal_id}/information?&apiKey={API_SECRET_KEY}")
+        meal = response.json()
+        new_recipe = Recipe(recipe_id = meal_id, title = meal["title"], image= meal["image"])
+        db.session.add(new_recipe)
+        db.session.commit()
+
+    new_favorite = Favorite(user_id=g.user.id, recipe_id=meal_id)
+    db.session.add(new_favorite)
+    db.session.commit()
+
+    return jsonify(message="Meal added to Favorites")
+@app.route('/meal-search',methods=['GET'])
+def ingredients_search():
+    return render_template('meal-search.html')
+    
+@app.route('/meal-search', methods=['POST'])
 def select_page():
     '''be shown a list of checkboxes and click boxes to create parameters for the meals that will be returned'''
     ingredients = request.form["ingredients"]
@@ -149,8 +176,7 @@ def select_page():
         
         
     return render_template('meal-search.html',results=results,no_results=no_results,favorited_recipes=favorited_recipes)
-    # else:
-    #     return redirect('/meal-results')
+    
 
 @app.route('/meal-results')
 def show_results():

@@ -11,20 +11,20 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <a class="navbar-brand" href="/">Meal Helper</a>
         <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/meal-search">Meal Search</a></li>
+          <li class="nav-item"><a class="nav-link m-2" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link m-2" href="/meal-search">Meal Search</a></li>
           {% if g.user %}
-          <li><a class="navlinks m-2" href="/user">Favorites</a></li>
+          <li class="nav-item"><a class="nav-link m-2" href="/user">Favorites</a></li>
           {% endif %}
           {% if not g.user %}
-          <li class="nav-item"><a class="nav-link" href="/register">Sign up</a></li>
-          <li class="nav-item"><a class="nav-link" href="/login">Log in</a></li>
+          <li class="nav-item"><a class="nav-link m-2" href="/register">Sign up</a></li>
+          <li class="nav-item"><a class="nav-link m-2" href="/login">Log in</a></li>
           {% else %}
           <li>
-          <a class="navlinks m-2" href="/user">{{g.user.username}}
+          <li class="nav-item"><a class="nav-link m-2" href="/user">{{g.user.username}}</a></li>
           </a>
           </li>
-          <li><a class="navlinks m-2" href="/logout">Log out</a></li>
+          <li class="nav-item"><a class="nav-link m-2" href="/logout">Log out</a></li>
           {% endif %}
   
         </ul>
@@ -37,6 +37,7 @@
         {% endfor %}
   
         {% block content %}
+        
         {% endblock %}
     </div>
 
