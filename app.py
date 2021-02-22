@@ -1,6 +1,6 @@
 import os
 import requests,json
-# from apiKey import API_SECRET_KEY
+# from apikey import API_SECRET_KEY
 from flask import Flask, render_template, request, jsonify, redirect, flash,session,g
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
@@ -150,7 +150,7 @@ def add_favorites(meal_id):
 @app.route('/meal-search',methods=['GET'])
 def ingredients_search():
     return render_template('meal-search.html')
-    
+
 @app.route('/meal-search', methods=['POST'])
 def select_page():
     '''be shown a list of checkboxes and click boxes to create parameters for the meals that will be returned'''

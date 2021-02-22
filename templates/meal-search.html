@@ -9,24 +9,25 @@
   <div class="input-group-append">
     <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
   </div>  
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Diet</button>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">Gluten Free</a>
-      <a class="dropdown-item" href="#">Ketogenic</a>
-      <a class="dropdown-item" href="#">Vegetarian</a>
-      <a class="dropdown-item" href="#">Lacto-Vegetarian</a>
-      <a class="dropdown-item" href="#">Ovo-Vegetarian</a>
-      <a class="dropdown-item" href="#">Vegan</a>
-      <a class="dropdown-item" href="#">Pescetarian</a>
-      <a class="dropdown-item" href="#">Paleo</a>
-      <a class="dropdown-item" href="#">Primal</a>
-      <a class="dropdown-item" href="#">Whole30</a>
-      
+  <div class="input-group col-md-3">
+    <span id="inputgroup-sizing-default" class="h4 input-group">Dietary Restrictions</span>
+      <select id="diet" class="input-group-append">
+      <option selected value="None">None</option>
+      <option value="Gluten Free">Gluten Free</option>
+      <option value="Ketogenic">Ketogenic</option>
+      <option value="Vegetarian">Vegetarian</option>
+      <option value="Lacto-Vegetarian">Lacto-Vegetarian</option>
+      <option value="Ovo-Vegetarian">Ovo-Vegetarian</option>
+      <option value="Vegan">Vegan</option>
+      <option value="Pescetarian">Pescetarian</option>
+      <option value="Paleo">Paleo</option>
+      <option value="Primal">Primal</option>
+      <option value="Whole30">Whole30</option>
+    </select>
     </div>
   </div>
+  <label>Please Separate multiple Ingredients with a comma.</label>
 </div>
-<label>Please Separate multiple Ingredients with a comma.</label>
 </form>
 
 {% if not g.user %}
