@@ -128,27 +128,28 @@ def user_details():
 
     return render_template('users.html',favorites=favorites_list)
 
-@app.route('/favorites/<int:meal_id>', methods=['POST'])
-def add_favorites(meal_id):
+@app.route('/favorites/<int:dish_id>', methods=['POST'])
+def add_favorites(dish_id):
     '''allow users to add a favorite recipe'''
     if not g.user:
         flash('You must be logged to see your favorites.', 'danger')
         return redirect("/login")
 
-    if not Recipe.query.get(meal_id):
-        response = requests.get(f"https://api.spoonacular.com/recipes/{meal_id}/information?includeNutrition=true&apiKey={API_SECRET_KEY}")
+    if not Recipe.query.get(dish_id):
+        response = requests.get(f"https://api.spoonacular.com/recipes/{dish_id}/information?includeNutrition=true&apiKey={API_SECRET_KEY}")
         meal = response.json()
-        new_recipe = Recipe(recipe_id = meal_id, title = meal["title"], image= meal["image"])
+        new_recipe = Recipe(recipe_id = dish_id, title = meal["title"], image= meal["image"])
         db.session.add(new_recipe)
         db.session.commit()
 
-    new_favorite = Favorite(user_id=g.user.id, recipe_id=meal_id)
+    new_favorite = Favorite(user_id=g.user.id, recipe_id=dish_id)
     db.session.add(new_favorite)
     db.session.commit()
 
     return jsonify(message="Meal added to Favorites")
 @app.route('/meal-search',methods=['GET'])
 def ingredients_search():
+    '''show template page'''
     return render_template('meal-search.html')
 
 @app.route('/meal-search', methods=['POST'])
@@ -158,70 +159,15 @@ def select_page():
     diet = request.form["diet"]
 
  
-    # response = requests.get(f"https://api.spoonacular.com/recipes/findByIngredients?ingredients={ingredients}&diet={diet}&number=20&apiKey={API_SECRET_KEY}&addRecipeInformation=true")
-    response = requests.get(f"https://api.spoonacular.com/recipes/findByIngredients?apiKey={API_SECRET_KEY}&ingredients={ingredients}&diet={diet}&number=20&addRecipeInformation=true")
+    response = requests.get(f"https://api.spoonacular.com/recipes/findByIngredients?ingredients={ingredients}&diet={diet}&number=20&apiKey={API_SECRET_KEY}&addRecipeInformation=true")
     results = response.json()
 
-    if not len(results):
-        no_results = "No results found."
-    else:
-        no_results = ""
-    
-    if g.user:
-        if g.user.recipes:
-            favorited_recipes = [recipe.recipe_id for recipe in g.user.recipes]
-        else:
-            favorited_recipes = None
-    else:
-        favorited_recipes = None
-        
-        
-    return redirect('meal-results.html')
-    
-@app.route('/meal-results', methods=['GET'])
-def show_meals():
-    '''show the information for a specific meal'''
-    response = requests.get(f"https://api.spoonacular.com/recipes/{dish_id}/information?&apiKey={API_SECRET_KEY}")
-    dish = response.json()
+    # list = data["results"]
+    # results = [e for e in list] 
    
 
-    if dish["analyzedInstructions"]:
-        for step in dish["analyzedInstructions"]:
-            steps = [ e["step"] for e in step["steps"] ] 
-
-    else:
-        steps = []
-
-    list = data["results"]
-    results = [e for e in list]
-    
     if not len(results):
         no_results = "No results found."
-    else:
-        no_results = ""
-    
-    if g.user:
-        if g.user.recipes:
-            favorited_recipes = [recipe.recipe_id for recipe in g.user.recipes]
-        else:
-            favorited_recipes = None
-    else: 
-        favorited_recipes = None
-
-    return render_template("meal-results.html", results = results, no_results= no_results, favorited_recipes = favorited_recipes)
-
-
-@app.route('/meal-results', methods=['POST'])
-def show_results():
-    '''show the results from their search'''
-    response = requests.get(f"https://api.spoonacular.com/recipes/complexSearch?query={dish}&diet={diet}&addRecipeInformation=true&apiKey={API_SECRET_KEY}")
-    data = response.json()
-  
-    list = data["results"]
-    results = [e for e in list]
-
-    if not len(results):
-        no_results = "No recipes available with that name, check your spelling"
     else:
         no_results = ""
     
@@ -233,7 +179,68 @@ def show_results():
     else:
         favorited_recipes = None
         
-    return render_template("meal-results.html", results = results, no_results= no_results, favorited_recipes = favorited_recipes)
+        
+    return render_template("meal-search.html", results = results, no_results= no_results, favorited_recipes = favorited_recipes)
+    # return redirect('/meal-results')
+# @app.route('/meal-results', methods=['GET'])
+# def show_meals():
+#     '''show the information for a specific meal'''
+#     ingredients = request.form["ingredients"]
+#     diet = request.form["diet"]
+
+#     response = requests.get(f"https://api.spoonacular.com/recipesfindByIngredients?ingredients={ingredients}&diet={diet}&addRecipeInformation=true&apiKey={API_SECRET_KEY}")
+#     dish = response.json()
+   
+
+#     if dish["analyzedInstructions"]:
+#         for step in dish["analyzedInstructions"]:
+#             steps = [ e["step"] for e in step["steps"] ] 
+
+#     else:
+#         steps = []
+
+#     if not len(results):
+#         no_results = "No results found."
+#     else:
+#         no_results = ""
+    
+#     if g.user:
+#         if g.user.recipes:
+#             favorited_recipes = [recipe.recipe_id for recipe in g.user.recipes]
+#         else:
+#             favorited_recipes = None
+#     else: 
+#         favorited_recipes = None
+
+#     return render_template("meal-results.html", results = results, no_results= no_results, favorited_recipes = favorited_recipes)
+
+
+# @app.route('/meal-results', methods=['POST'])
+# def show_results():
+#     '''show the results from their search'''
+#     ingredients = request.form["ingredients"]
+#     diet = request.form["diet"]
+
+#     response = requests.get(f"https://api.spoonacular.com/recipesfindByIngredients?ingredients={ingredients}&diet={diet}&addRecipeInformation=true&apiKey={API_SECRET_KEY}")
+#     data = response.json()
+  
+#     list = data["results"]
+#     results = [e for e in list]
+
+#     if not len(results):
+#         no_results = "No recipes available with that name, check your spelling"
+#     else:
+#         no_results = ""
+    
+#     if g.user:
+#         if g.user.recipes:
+#             favorited_recipes = [recipe.recipe_id for recipe in g.user.recipes]
+#         else:
+#             favorited_recipes = None
+#     else:
+#         favorited_recipes = None
+        
+#     return render_template("meal-results.html", results = results, no_results= no_results, favorited_recipes = favorited_recipes)
 
 @app.route('/users/<username>/delete',methods=['DELETE'])
 def delete_user(username):
