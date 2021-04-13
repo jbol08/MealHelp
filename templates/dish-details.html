@@ -4,13 +4,48 @@
 {% endblock %}
 
 {% block content %}
-
-<div id="search-results">
+<div>
+    <div id={{dish.id}}>
+        <br>
+    
+        <h1 class="text-center">{{dish.title}}</h1>
+            <br>
+        <a href="/dish/{{dish.id}}"><img class="img-rounded text-center"  alt={{dish.title}} src="{{dish.image}}"></a>
+    
+        <br>
+        {% if g.user %}
+        <div class="favorite">
+            {% if favorited_recipes and dish.id in favorited_recipes %}
+            <button data-id="{{dish.id}}" class="btn m-2 favorited-btn"><i class="fas fa-star"></i> Remove Dish from Favorites</button>
+            </div>
+            {% else %}
+            <button data-id="{{dish.id}}" class="btn m-2 not-favorited-btn"><i class="fas fa-star"></i> Add Dish to Favorites</button>
+            {% endif %}
+            </div>
+        {% endif %}
+    <p>Servings: {{dish.servings}}</p>
+    <p>Ready in {{dish.readyInMinutes}} minutes</p>
+    <p>Health Score: {{dish.healthScore}}</p>
+    <p>{{dish.summary|striptags}}</p>
+    <h3>Ingredients:</h3>
+    <div id="search-results">
     <div id="noresults">
         <p>{{no_results}}</p>
     </div>
     <br>
-    {% for result in results %}
+    <ul>
+   
+        {% for ingredient in dish.extendedIngredients %}
+        <li>{{ingredient.originalString}}</li>
+        {% endfor %}
+       
+    </ul>
+    <h3>Instructions:</h3>
+    <ol>
+        {% for step in steps %}
+        <li>{{step}}</li>
+        {% endfor %}
+    <!-- {% for result in results %}
     <div class="col d-flex justify-content-center container-fluid result">
         <div class="card card-width" id={{result.id}}>
             <a href="/dish/{{result.id}}"><img class="card-img-top img-rounded" alt={{result.title}}
@@ -42,13 +77,13 @@
                 </a>
               
             </div>
-        </div>
+        </div> -->
     </div>
     {% endfor %}
     <br>
     {% if not g.user %}
-    <p><a class="dish-title" href="/login"> Sign in if you want to save your favorite dishes!</a></p>
-    <a href="/register" class="btn btns signup-btn">Create Account</a>
+    <p><a class="btn btn-info" href="/login"> Sign in if you want to save your favorite dishes!</a></p>
+    <a href="/register" class="btn btn-dark">Create Account</a>
     {% endif %}
 </div>
 

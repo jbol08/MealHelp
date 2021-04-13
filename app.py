@@ -161,10 +161,7 @@ def select_page():
  
     response = requests.get(f"https://api.spoonacular.com/recipes/findByIngredients?ingredients={ingredients}&diet={diet}&number=20&apiKey={API_SECRET_KEY}&addRecipeInformation=true")
     results = response.json()
-
-    # list = data["results"]
-    # results = [e for e in list] 
-   
+    
 
     if not len(results):
         no_results = "No results found."
@@ -181,38 +178,32 @@ def select_page():
         
         
     return render_template("meal-search.html", results = results, no_results= no_results, favorited_recipes = favorited_recipes)
-    # return redirect('/meal-results')
-# @app.route('/meal-results', methods=['GET'])
-# def show_meals():
-#     '''show the information for a specific meal'''
-#     ingredients = request.form["ingredients"]
-#     diet = request.form["diet"]
+    
+@app.route('/dish/<int:dish_id>', methods=['GET'])
+def show_meals(dish_id):
+    '''show the information for a specific dish, if they have step by step instructions then it will show'''
+    
 
-#     response = requests.get(f"https://api.spoonacular.com/recipesfindByIngredients?ingredients={ingredients}&diet={diet}&addRecipeInformation=true&apiKey={API_SECRET_KEY}")
-#     dish = response.json()
+    response = requests.get(f"https://api.spoonacular.com/recipes/{dish_id}/information?&apiKey={API_SECRET_KEY}")
+    dish = response.json()
    
 
-#     if dish["analyzedInstructions"]:
-#         for step in dish["analyzedInstructions"]:
-#             steps = [ e["step"] for e in step["steps"] ] 
+    if dish["analyzedInstructions"]:
+        for step in dish["analyzedInstructions"]:
+            steps = [ e["step"] for e in step["steps"] ] 
 
-#     else:
-#         steps = []
+    else:
+        steps = []
 
-#     if not len(results):
-#         no_results = "No results found."
-#     else:
-#         no_results = ""
-    
-#     if g.user:
-#         if g.user.recipes:
-#             favorited_recipes = [recipe.recipe_id for recipe in g.user.recipes]
-#         else:
-#             favorited_recipes = None
-#     else: 
-#         favorited_recipes = None
+    if g.user:
+        if g.user.recipes:
+            favorited_recipes = [recipe.recipe_id for recipe in g.user.recipes]
+        else:
+            favorited_recipes = None
+    else: 
+        favorited_recipes = None
 
-#     return render_template("meal-results.html", results = results, no_results= no_results, favorited_recipes = favorited_recipes)
+    return render_template("dish-details.html", dish = dish, steps = steps, favorited_recipes = favorited_recipes)
 
 
 # @app.route('/meal-results', methods=['POST'])
