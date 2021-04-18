@@ -8,7 +8,7 @@
     <br>
     <form method="POST">
       <div class="form-row">
-        <div class="form-group col-md-12">
+        <div class="form-group col-sm-9">
           <label class="font-small" for="ingredients"></label>
           <input class="form-control" type="text" placeholder="What Ingredients do you want to use?" name="ingredients" id="ingredients">
         </div>
@@ -36,31 +36,32 @@
         <div id="noresults"><p>{{no_results}}</p></div>
     <br>
     {% for result in results %}
+    <div class="card-deck col-sm-11 justify-content-center">
     <div class="col d-flex justify-content-center container_fluid result">
     <div class="card card-width" id={{result.id}}>
       <a href="/dish/{{result.id}}"><img  class="card-img-top img-rounded" alt={{result.title}} src="{{result.image}}"></a>
-      <br>
+      
       <h2 class="text-center"><a class="card-title text-center dish-title" href="/dish/{{result.id}}">{{result.title}}</a>
       </h2>
     
-        {% if g.user %}
+    {% if g.user %}
     <div class="favorite">
     {% if favorited_recipes and result.id in favorited_recipes %}
-      <button data-id="{{result.id}}" class="btn m-2 favorited-btn"><i class="fas fa-star"></i> 
-        Remove Dish from Favorites</button>
+    <button data-id="{{result.id}}" class="btn m-2 favorite-btn"><i class="fas fa-star"></i> 
+      Remove from Favorites</button>
     {% else %}
-    <button data-id="{{result.id}}" class="btn m-2 not-favorited-btn"><i class="fas fa-star"></i> 
-      Add Dish to Favorites</button>
+    <button data-id="{{result.id}}" class="btn m-2 non-favorite-btn"><i class="fas fa-star"></i> 
+      Add to Favorites</button>
     {% endif %}
     </div>
     {% endif %}
     
     <div class="card-body">
-    <p  class="card-text">Ready in {{result.readyInMinutes}} minutes</p>    
-    <p class="card-text">{{result.summary|striptags}}</p>
     <a href="/dish/{{result.id}}">
-      <p class="card-text">Get this recipe!</p>
+    <p class="card-text">Checkout this recipe!</p>
     </a>
+    </div>
+    <br>
     </div>
     </div>
     </div>
