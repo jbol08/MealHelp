@@ -57,7 +57,11 @@
     {% endif %}
     
     <div class="card-body">
+    <p  class="card-text">Ready in {{result.readyInMinutes}} minutes</p>
+
+    <p class="card-text">{{result.summary|striptags}}</p>
     <a href="/dish/{{result.id}}">
+    
     <p class="card-text">Checkout this recipe!</p>
     </a>
     </div>

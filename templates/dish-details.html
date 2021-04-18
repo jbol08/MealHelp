@@ -1,3 +1,4 @@
+  
 {% extends 'base.html' %}
 {% block title%}
 <h1>Meal Results</h1>
@@ -46,7 +47,7 @@
         {% endfor %}
     
     </div>
-    {% endfor %}
+    
     <br>
     {% if not g.user %}
     <p><a class="btn btn-info" href="/login"> Sign in if you want to save your favorite dishes!</a></p>

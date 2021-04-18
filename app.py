@@ -122,8 +122,6 @@ def user_details():
     else:
         favorites = Favorite.query.filter(Favorite.user_id == g.user.id)  
         favorites_list = [ favorites.recipe_id for favorite in favorites]
-
-
     
 
     return render_template('users.html',favorites=favorites_list)
@@ -168,13 +166,14 @@ def ingredients_search():
 @app.route('/meal-search', methods=['POST'])
 def select_page():
     '''be shown a list of checkboxes and click boxes to create parameters for the meals that will be returned'''
+   
     ingredients = request.form["ingredients"]
     diet = request.form["diet"]
 
  
     response = requests.get(f"https://api.spoonacular.com/recipes/findByIngredients?ingredients={ingredients}&diet={diet}&number=20&apiKey={API_SECRET_KEY}&addRecipeInformation=true")
     results = response.json()
-    
+       
 
     if not len(results):
         no_results = "No results found."
