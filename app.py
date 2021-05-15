@@ -120,11 +120,13 @@ def user_details():
         return redirect("/login")
 
     else:
-        favorites = Favorite.query.filter(Favorite.user_id == g.user.id)  
-        favorites_list = [ favorites.recipe_id for favorite in favorites]
+        favorites = Favorite.query.filter(Favorite.user_id == g.user.id)
+        ordered_recipe_ids = [ favorite.recipe_id for favorite in favorites]
+  
+        ordered_favorites = [Recipe.query.get(id) for id in ordered_recipe_ids]
     
 
-    return render_template('users.html',favorites=favorites_list)
+    return render_template('users.html',favorites=ordered_favorites)
 
 @app.route('/favorites/<int:dish_id>', methods=['POST'])
 def add_favorites(dish_id):

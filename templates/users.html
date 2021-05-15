@@ -8,19 +8,21 @@
 <h1>Welcome {{g.user.username}}</h1>
 
 <h2> Favorites</h2>
-
+    
 {% if g.user.recipes %}
 <div class="favorites">
-    <ul>
-        {% for favorite in g.user.favorites %}
-        <li>
-           <strong>{{recipe.title}}</strong>
-           <br>
-           <small>{{recipe.details}}</small>
-           <small>{{recipe.total_time}}</small>
-        </li>       
-        {% endfor %}
-    </ul>
+{% for favorite in favorites %}
+
+
+<div class="favorites row">
+    <div class="col-xs-10">
+        <span><img class="rounded favorites-img" height="75px" src="{{favorite.image}}" alt="{{favorite.title}}"></span> 
+        <a class="dish-title favorites-title" href="/dish/{{favorite.recipe_id}}">{{favorite.title}}</a>
+</div> 
+</div>
+<br>
+{% endfor %}
+</div>
 {% else %}
 <h3> No Favorites Added Yet!</h3>
 {% endif %}
