@@ -219,17 +219,18 @@ def show_meals(dish_id):
 
 
 
-@app.route('/users/<username>/delete',methods=['DELETE'])
-def delete_user(username):
+@app.route('/user/delete',methods=['GET','POST'])
+def delete_user():
     '''delete a user'''
     if not g.user:
         flash('You must be logged in to see this page.', 'danger')
         return redirect("/login")
         
 
-    user = User.query.get_or_404(username)
-    db.session.delete(user)
+    
+    db.session.delete(g.user)
     db.session.commit()
-    session.pop('username')
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
 
     return redirect('/')
