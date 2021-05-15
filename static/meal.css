@@ -1,4 +1,13 @@
 h1 {
     text-align: center;
 }
-
+/* 
+a img {
+    background-color: white;
+} */
+body {
+    background-image: url('/MealHelp/static/images/mealhelp.jpg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: white;
+}
