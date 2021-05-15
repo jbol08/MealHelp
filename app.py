@@ -1,6 +1,6 @@
 import os
 import requests,json
-from key import API_SECRET_KEY
+import key
 from flask import Flask, render_template, request, jsonify, redirect, flash,session,g
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
