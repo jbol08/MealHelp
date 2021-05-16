@@ -47,10 +47,10 @@
     {% if g.user %}
     <div class="favorite">
     {% if favorited_recipes and result.id in favorited_recipes %}
-    <button data-id="{{result.id}}" class="btn m-2 favorite-btn"><i class="fas fa-star"></i> 
+    <button data-id="{{result.id}}" class="btn m-2 favorite-btn">
       Remove from Favorites</button>
     {% else %}
-    <button data-id="{{result.id}}" class="btn m-2 non-favorite-btn"><i class="fas fa-star"></i> 
+    <button data-id="{{result.id}}" class="btn m-2 non-favorite-btn">
       Add to Favorites</button>
     {% endif %}
     </div>

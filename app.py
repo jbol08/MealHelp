@@ -148,16 +148,17 @@ def add_favorites(dish_id):
 
     return jsonify(message="Meal added to Favorites")
 
-@app.route('/removefavorites/<int:dish_id>', methods=["POST"])
+@app.route('/removefavorite/<int:dish_id>', methods=["GET", "POST"])
 def remove_favorites(dish_id):
     '''allow user to remove any favorited recipe'''
     if not g.user:
         flash('You must be logged in to see your favorites.', 'danger')
         return redirect('/login')
-    favorite = User_Favorite.query.filter(User_Favorite.recipe_id == dish_id, User_Favorite.user_id == g.user.id).first()
+    remove_fav = Favorite.query.filter(Favorite.recipe_id == dish_id, Favorite.user_id == g.user.id).first();
 
-    db.session.delete(favorite)
+    db.session.delete(remove_fav)
     db.session.commit()
+
     return jsonify(message='Dish removed from favorites.')
     
 @app.route('/meal-search',methods=['GET'])
@@ -175,6 +176,7 @@ def select_page():
  
     response = requests.get(f"https://api.spoonacular.com/recipes/findByIngredients?ingredients={ingredients}&diet={diet}&number=20&apiKey={API_SECRET_KEY}&addRecipeInformation=true")
     results = response.json()
+    
        
 
     if not len(results):
@@ -193,7 +195,7 @@ def select_page():
         
     return render_template("meal-search.html", results = results, no_results= no_results, favorited_recipes = favorited_recipes)
     
-@app.route('/dish/<int:dish_id>', methods=['GET'])
+@app.route('/dish/<int:dish_id>')
 def show_meals(dish_id):
     '''show the information for a specific dish, if they have step by step instructions then it will show'''
     
