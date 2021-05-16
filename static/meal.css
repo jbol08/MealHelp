@@ -41,7 +41,6 @@ p, ul, ol {
         font-size: small;
         text-align: left;
         top:75%;
-        left:50%;
-        transform:translateX(-50%) translateY(-50%);  
+        
     }
 }
