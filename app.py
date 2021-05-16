@@ -154,7 +154,7 @@ def remove_favorites(dish_id):
     if not g.user:
         flash('You must be logged in to see your favorites.', 'danger')
         return redirect('/login')
-    remove_fav = Favorite.query.filter(Favorite.recipe_id == dish_id, Favorite.user_id == g.user.id).first();
+    remove_fav = Favorite.query.filter(Favorite.recipe_id == dish_id, Favorite.user_id == g.user.id).first(); 
 
     db.session.delete(remove_fav)
     db.session.commit()
@@ -174,9 +174,11 @@ def select_page():
     diet = request.form["diet"]
 
  
-    response = requests.get(f"https://api.spoonacular.com/recipes/findByIngredients?ingredients={ingredients}&diet={diet}&number=20&apiKey={API_SECRET_KEY}&addRecipeInformation=true")
-    results = response.json()
+    response = requests.get(f"https://api.spoonacular.com/recipes/complexSearch?query={ingredients}&diet={diet}&number=20&apiKey={API_SECRET_KEY}&addRecipeInformation=true")
+    data = response.json()
     
+    list = data["results"]
+    results = [e for e in list]
        
 
     if not len(results):
