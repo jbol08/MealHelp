@@ -29,7 +29,7 @@
         </div>
       
       </div>
-      <span><button class="btn m-2 btns">Search</button></span>
+      <span><button class="btn btn-dark m-2 btns">Search</button></span>
       </form>
       <br>
       <div id="search-results">
@@ -47,10 +47,10 @@
     {% if g.user %}
     <div class="favorite">
     {% if favorited_recipes and result.id in favorited_recipes %}
-    <button data-id="{{result.id}}" class="btn m-2 favorite-btn">
+    <button data-id="{{result.id}}" class="btn btn-success m-2 favorite-btn">
       Remove from Favorites</button>
     {% else %}
-    <button data-id="{{result.id}}" class="btn m-2 non-favorite-btn">
+    <button data-id="{{result.id}}" class="btn btn-success m-2 non-favorite-btn">
       Add to Favorites</button>
     {% endif %}
     </div>

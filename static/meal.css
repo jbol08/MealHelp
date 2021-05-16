@@ -1,7 +1,11 @@
 h1 {
     text-align: center;
 }
-
+h2,h3{
+    font-weight: bolder;
+    color: yellow;
+    text-align: center;
+}
 
 body {
     background:url('./images/mealhelp.jpg') no-repeat center center fixed; 
@@ -9,4 +13,26 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+p, ul, ol {
+    color: rgb(6, 156, 69);
+    font-weight: bolder;
+    text-align: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#home p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);    
+    color: black;
+    font-size: xx-large;
+}
+
+.form-row {
+    align-content: center;
 }
