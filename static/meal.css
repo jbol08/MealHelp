@@ -36,7 +36,7 @@ p, ul, ol {
 .form-row {
     align-content: center;
 }
-@media (max-width: 650px) {
+@media (max-width: 850px) {
     #home p{
         font-size: small;
         text-align: left;
