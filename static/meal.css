@@ -38,6 +38,10 @@ p, ul, ol {
 }
 @media (max-width: 650px) {
     #home p{
-        font-size: medium;
+        font-size: small;
+        text-align: left;
+        top:75%;
+        left:50%;
+        transform:translateX(-50%) translateY(-50%);  
     }
 }
