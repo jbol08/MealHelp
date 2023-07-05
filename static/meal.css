@@ -23,6 +23,12 @@ p, ul, ol {
     margin: 0;
     padding: 0;
 }
+img{
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
 #home p {
     position: absolute;
     top: 50%;
