@@ -3,7 +3,7 @@
 Link to site: https://mealhelp.herokuapp.com/
 
 ### Description
-This is a site I designed to help my wife be able to find recipes easier because she has dietary intolerances and sifting through google was quite a task. This allows a user
+This is a site I designed to help be able to find recipes easier because people have dietary intolerances and sifting through google was quite a task. This allows a user
 to look up recipes, and to create an account so that they can saved recipes to their favorites.
 
 Recipes can be filtered by intolerances and a user can even just select an intolerance without including any ingredients and they will get a list of random meals that fit that
