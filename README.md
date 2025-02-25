@@ -1,6 +1,6 @@
 # MealHelp
 
-Link to site: https://mealhelp.herokuapp.com/
+Link to site: 
 
 ### Description
 This is a site I designed to help be able to find recipes easier because people have dietary intolerances and sifting through google was quite a task. This allows a user
