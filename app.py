@@ -13,7 +13,7 @@ CURR_USER_KEY = "curr_user"
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL','postgresql://mealhelp_user:4uJaBojQ9QgsiAjJjVBBIxMnWtfXo07b@dpg-cuueq9lsvqrc73dl2sfg-a/mealhelp'))
+    os.environ.get('DATABASE_URL','postgresql://mealhelp_user:4uJaBojQ9QgsiAjJjVBBIxMnWtfXo07b@dpg-cuueq9lsvqrc73dl2sfg-a.oregon-postgres.render.com/mealhelp'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 
